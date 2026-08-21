@@ -2,775 +2,1209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APOLLO GAME OS</title>
 
 <style>
-:root{
-    --bg:#070a10;
-    --panel:rgba(15,20,30,.88);
-    --card:#151c29;
-    --card2:#202a3b;
-    --text:#f5f7fb;
-    --muted:#8f9bad;
-    --blue:#62b5ff;
-    --purple:#987cff;
-    --green:#55e6a5;
-    --red:#ff667a;
-    --border:rgba(255,255,255,.09);
+:root {
+    --bg: #07090d;
+    --bg2: #0d1118;
+    --panel: rgba(18, 23, 31, 0.88);
+    --panel2: #151b24;
+    --panel3: #202733;
+    --border: rgba(255,255,255,.08);
+
+    --text: #f4f6fa;
+    --muted: #8993a3;
+
+    --blue: #68b5ff;
+    --blue2: #397fe5;
+    --purple: #8b73ff;
+
+    --green: #55d49a;
+    --red: #ff6675;
+
+    --shadow: 0 25px 70px rgba(0,0,0,.45);
 }
 
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    height:100vh;
-    overflow:hidden;
-    color:var(--text);
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(67,130,220,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(116,74,190,.12),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
     font-family:
-        Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 75% 15%,
-            #1b3155 0,
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 20% 80%,
-            #261847 0,
-            transparent 30%
-        ),
-        var(--bg);
 }
 
-button,
-input,
-select{
-    font:inherit;
+
+/* =========================================================
+   BOOT SCREEN
+========================================================= */
+
+#boot {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #040609;
 }
 
-button{
-    cursor:pointer;
+.boot-container {
+    width: 390px;
+    text-align: center;
 }
 
-/* =====================================================
-   BOOT
-===================================================== */
+.boot-logo {
+    width: 92px;
+    height: 92px;
 
-#bootScreen{
-    position:fixed;
-    inset:0;
-    z-index:99999;
+    margin: auto;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background:#03050a;
+    border: 2px solid #78baff;
+    border-radius: 50%;
+
+    color: #9acaff;
+
+    font-size: 34px;
+    font-weight: 800;
+
+    box-shadow:
+        0 0 35px rgba(77,160,255,.35),
+        inset 0 0 30px rgba(77,160,255,.08);
 }
 
-.boot{
-    text-align:center;
+.boot-title {
+    margin-top: 24px;
+
+    font-size: 38px;
+    font-weight: 700;
+
+    letter-spacing: 8px;
 }
 
-.apollo-symbol{
-    font-size:105px;
-    color:var(--blue);
+.boot-subtitle {
+    margin-top: 8px;
 
-    text-shadow:
-        0 0 20px #62b5ff,
-        0 0 90px #62b5ff55;
+    color: #657083;
 
-    animation:apolloPulse 2s infinite;
+    font-size: 10px;
+    letter-spacing: 4px;
 }
 
-@keyframes apolloPulse{
-    50%{
-        transform:scale(1.08);
-        filter:brightness(1.5);
-    }
+.boot-track {
+    height: 4px;
+
+    margin-top: 45px;
+
+    overflow: hidden;
+
+    background: #202630;
+
+    border-radius: 20px;
 }
 
-.boot h1{
-    margin:5px 0;
-    font-size:48px;
-    letter-spacing:10px;
-}
-
-.boot p{
-    color:var(--muted);
-    letter-spacing:5px;
-}
-
-.boot-progress{
-    width:340px;
-    height:5px;
-    margin:35px auto 15px;
-
-    background:#1c2431;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.boot-progress div{
-    height:100%;
-    width:0;
+.boot-progress {
+    width: 0;
+    height: 100%;
 
     background:
         linear-gradient(
             90deg,
-            var(--blue),
+            var(--blue2),
             var(--purple)
         );
 
-    animation:bootLoad 3.4s forwards;
+    animation: bootProgress 3.5s forwards;
 }
 
-@keyframes bootLoad{
-    to{width:100%}
+@keyframes bootProgress {
+    to {
+        width: 100%;
+    }
 }
 
-#bootStatus{
-    color:#718096;
-    font-size:12px;
+.boot-status {
+    margin-top: 14px;
+
+    color: #687383;
+
+    font-size: 11px;
 }
 
-/* =====================================================
-   DESKTOP
-===================================================== */
 
-#desktop{
-    display:none;
-    height:100vh;
+/* =========================================================
+   APP
+========================================================= */
+
+#app {
+    display: none;
+
+    width: 100%;
+    height: 100%;
 }
 
-/* =====================================================
+
+/* =========================================================
    TOP BAR
-===================================================== */
+========================================================= */
 
-.topbar{
-    height:42px;
+.topbar {
+    height: 46px;
 
-    display:flex;
-    align-items:center;
+    position: relative;
 
-    padding:0 18px;
-    gap:22px;
+    display: flex;
+    align-items: center;
 
-    background:rgba(5,8,13,.78);
+    padding: 0 18px;
 
-    backdrop-filter:blur(25px);
+    background: rgba(7,10,15,.76);
 
-    border-bottom:1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+
+    backdrop-filter: blur(30px);
+
+    user-select: none;
 }
 
-.brand{
-    font-weight:800;
-    letter-spacing:1px;
+.window-controls {
+    display: flex;
+    gap: 8px;
+
+    margin-right: 20px;
 }
 
-.top-menu{
-    color:var(--muted);
-    font-size:13px;
+.window-control {
+    width: 11px;
+    height: 11px;
+
+    background: #353c47;
+
+    border-radius: 50%;
 }
 
-.top-right{
-    margin-left:auto;
+.brand {
+    font-size: 13px;
+    font-weight: 700;
 
-    display:flex;
-    align-items:center;
-    gap:18px;
-
-    color:var(--muted);
-    font-size:13px;
+    letter-spacing: 1px;
 }
 
-/* =====================================================
-   LAYOUT
-===================================================== */
+.top-center {
+    position: absolute;
+    left: 50%;
 
-.layout{
-    display:flex;
-    height:calc(100vh - 42px);
+    transform: translateX(-50%);
+
+    color: #8993a3;
+
+    font-size: 12px;
 }
 
-/* =====================================================
+.top-right {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    color: #aab3c0;
+
+    font-size: 12px;
+}
+
+#gamingIndicator {
+    transition: .2s;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main {
+    display: flex;
+
+    width: 100%;
+    height: calc(100% - 46px);
+}
+
+
+/* =========================================================
    SIDEBAR
-===================================================== */
+========================================================= */
 
-.sidebar{
-    width:235px;
+.sidebar {
+    width: 235px;
 
-    padding:28px 14px;
+    flex-shrink: 0;
 
-    background:rgba(9,13,21,.84);
-
-    border-right:1px solid var(--border);
-
-    backdrop-filter:blur(25px);
-}
-
-.sidebar-logo{
-    padding:0 12px;
-
-    font-size:24px;
-    font-weight:800;
-}
-
-.sidebar-sub{
-    padding:3px 12px;
-
-    color:var(--muted);
-    font-size:10px;
-    letter-spacing:.5px;
-}
-
-.nav{
-    margin-top:28px;
-}
-
-.nav button{
-    width:100%;
-
-    margin-bottom:5px;
-    padding:13px 14px;
-
-    text-align:left;
-
-    color:#aeb8c8;
-
-    background:transparent;
-
-    border:0;
-    border-radius:10px;
-
-    transition:.2s;
-}
-
-.nav button:hover,
-.nav button.active{
-    background:#1d2737;
-    color:#fff;
-}
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.content{
-    flex:1;
-
-    overflow-y:auto;
-
-    padding:38px 45px 120px;
-}
-
-.content h2{
-    margin:0;
-
-    font-size:31px;
-}
-
-.subtitle{
-    color:var(--muted);
-    margin-top:6px;
-}
-
-.section-title{
-    margin-top:32px;
-}
-
-/* =====================================================
-   HERO
-===================================================== */
-
-.hero{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:30px;
-    margin-bottom:22px;
-
-    border:1px solid var(--border);
-    border-radius:20px;
+    padding: 28px 13px;
 
     background:
         linear-gradient(
-            120deg,
-            #182438,
-            #101622
+            180deg,
+            rgba(14,18,25,.96),
+            rgba(8,11,16,.96)
         );
 
-    box-shadow:0 25px 70px #0005;
+    border-right: 1px solid var(--border);
 }
 
-.hero-label{
-    color:var(--blue);
-
-    font-size:12px;
-    font-weight:800;
-
-    letter-spacing:2px;
+.logo-area {
+    padding: 0 13px 25px;
 }
 
-.hero h1{
-    margin:8px 0;
+.logo-name {
+    font-size: 22px;
+    font-weight: 800;
 
-    font-size:34px;
+    letter-spacing: 2px;
 }
 
-.hero p{
-    color:var(--muted);
+.logo-caption {
+    margin-top: 5px;
+
+    color: #667183;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
 }
 
-.primary{
-    padding:12px 18px;
+.nav-label {
+    margin: 16px 13px 8px;
 
-    border:0;
-    border-radius:10px;
+    color: #566171;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.nav button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 11px 13px;
+    margin-bottom: 4px;
+
+    color: #98a2b2;
+
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    transition: .18s;
+}
+
+.nav button:hover {
+    color: white;
+
+    background: rgba(255,255,255,.045);
+}
+
+.nav button.active {
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(76,143,230,.19),
+            rgba(76,143,230,.04)
+        );
+
+    border-color: rgba(102,171,255,.14);
+}
+
+.nav-icon {
+    width: 27px;
+
+    color: #738094;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nav button.active .nav-icon {
+    color: var(--blue);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 38px 45px 110px;
+}
+
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #272e39;
+
+    border-radius: 10px;
+}
+
+.page-header {
+    margin-bottom: 28px;
+}
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -.8px;
+}
+
+.page-header p {
+    margin: 7px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+
+    min-height: 245px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    padding: 38px;
+
+    background:
+        radial-gradient(
+            circle at 85% 35%,
+            rgba(95,164,255,.20),
+            transparent 30%
+        ),
+        linear-gradient(
+            120deg,
+            #161e2b,
+            #0f141d
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow: var(--shadow);
+}
+
+.hero::after {
+    content: "APOLLO";
+
+    position: absolute;
+
+    right: -45px;
+    bottom: -50px;
+
+    color: rgba(255,255,255,.025);
+
+    font-size: 150px;
+    font-weight: 900;
+
+    letter-spacing: -8px;
+
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-tag {
+    color: var(--blue);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.hero h2 {
+    max-width: 650px;
+
+    margin: 9px 0 8px;
+
+    font-size: 38px;
+
+    letter-spacing: -1.5px;
+}
+
+.hero p {
+    max-width: 550px;
+
+    color: var(--muted);
+
+    line-height: 1.6;
+}
+
+.primary {
+    position: relative;
+    z-index: 2;
+
+    padding: 12px 19px;
+
+    color: white;
 
     background:
         linear-gradient(
             135deg,
-            var(--blue),
+            var(--blue2),
             var(--purple)
         );
 
-    color:#07101a;
+    border: 0;
+    border-radius: 9px;
 
-    font-weight:800;
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+    box-shadow:
+        0 8px 25px rgba(64,132,226,.22);
+
+    transition: .2s;
 }
 
-/* =====================================================
+.primary:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
+}
+
+
+/* =========================================================
    CARDS
-===================================================== */
+========================================================= */
 
-.grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:14px;
-}
-
-.card{
-    padding:20px;
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-}
-
-.card-title{
-    color:var(--muted);
-    font-size:12px;
-}
-
-.metric{
-    margin-top:8px;
-
-    font-size:25px;
-    font-weight:800;
-}
-
-/* =====================================================
-   GAMES
-===================================================== */
-
-.games{
-    display:grid;
+.stat-grid {
+    display: grid;
 
     grid-template-columns:
-        repeat(3,1fr);
+        repeat(4, 1fr);
 
-    gap:15px;
+    gap: 13px;
 
-    margin-top:18px;
+    margin-top: 18px;
 }
 
-.game{
-    position:relative;
-
-    min-height:190px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-
-    padding:20px;
-
-    overflow:hidden;
-
-    border:1px solid var(--border);
-    border-radius:16px;
+.card {
+    padding: 19px;
 
     background:
         linear-gradient(
             145deg,
-            #253653,
-            #111722
+            rgba(26,32,43,.92),
+            rgba(18,23,31,.92)
         );
 
-    transition:.2s;
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
 }
 
-.game:hover{
-    transform:translateY(-4px);
+.card-label {
+    color: #788394;
 
-    box-shadow:
-        0 15px 35px #0007;
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
 }
 
-.game::before{
-    content:"◈";
+.card-value {
+    margin-top: 9px;
 
-    position:absolute;
-
-    right:18px;
-    top:15px;
-
-    font-size:70px;
-
-    color:#62b5ff18;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-.game h3{
-    margin:5px 0;
+.card-sub {
+    margin-top: 5px;
+
+    color: #667183;
+
+    font-size: 10px;
 }
 
-.game small{
-    color:var(--muted);
+
+/* =========================================================
+   GAME GRID
+========================================================= */
+
+.game-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
 }
 
-.play{
-    width:max-content;
+.game {
+    position: relative;
 
-    margin-top:10px;
-    padding:8px 15px;
+    min-height: 190px;
 
-    border:0;
-    border-radius:8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 
-    background:white;
-    color:#080b10;
+    overflow: hidden;
 
-    font-weight:800;
-}
-
-/* =====================================================
-   STORE
-===================================================== */
-
-.store-toolbar{
-    display:flex;
-    gap:10px;
-
-    margin:25px 0;
-}
-
-.store-search{
-    flex:1;
-
-    min-width:200px;
-
-    padding:13px 15px;
-
-    background:#101621;
-
-    color:white;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    outline:none;
-}
-
-.store-select{
-    padding:13px;
-
-    background:#101621;
-
-    color:white;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-}
-
-.store-count{
-    margin-bottom:18px;
-}
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-.progress{
-    height:8px;
-
-    overflow:hidden;
-
-    background:#293242;
-
-    border-radius:20px;
-}
-
-.progress div{
-    height:100%;
+    padding: 20px;
 
     background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(89,160,255,.12),
+            transparent 32%
+        ),
         linear-gradient(
-            90deg,
-            var(--blue),
-            var(--purple)
+            145deg,
+            #1b2535,
+            #11161f
         );
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    transition: .2s;
 }
 
-/* =====================================================
+.game:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(103,175,255,.24);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.38);
+}
+
+.game-category {
+    color: #7891ae;
+
+    font-size: 10px;
+}
+
+.game h3 {
+    margin: 7px 0 3px;
+
+    font-size: 16px;
+}
+
+.game-meta {
+    color: #6e7888;
+
+    font-size: 10px;
+}
+
+.game-actions {
+    display: flex;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+.play {
+    padding: 8px 15px;
+
+    color: #0c1017;
+
+    background: #f0f3f7;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.secondary {
+    padding: 8px 12px;
+
+    color: #dbe1e9;
+
+    background: #252d3a;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   STORE
+========================================================= */
+
+.store-tools {
+    display: flex;
+
+    gap: 9px;
+
+    margin-bottom: 18px;
+}
+
+.search {
+    flex: 1;
+
+    padding: 12px 14px;
+
+    color: white;
+
+    background: #10151d;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    outline: none;
+}
+
+.search:focus {
+    border-color:
+        rgba(103,177,255,.4);
+}
+
+.select,
+.setting-select {
+    padding: 10px 12px;
+
+    color: #dbe1e8;
+
+    background: #10151d;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+}
+
+.store-info {
+    margin-bottom: 15px;
+
+    color: #788393;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
    SETTINGS
-===================================================== */
+========================================================= */
 
-.setting{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.settings-layout {
+    display: grid;
 
-    margin-top:10px;
-    padding:18px;
+    grid-template-columns: 210px 1fr;
 
-    background:var(--card);
+    min-height: 550px;
 
-    border:1px solid var(--border);
+    overflow: hidden;
 
-    border-radius:12px;
+    background: rgba(16,21,29,.75);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
 }
 
-.setting-arrow{
-    color:var(--muted);
+.settings-menu {
+    padding: 13px;
+
+    background: rgba(10,14,20,.55);
+
+    border-right: 1px solid var(--border);
 }
 
-/* =====================================================
-   DOCK
-===================================================== */
+.settings-menu button {
+    width: 100%;
 
-.dock{
-    position:fixed;
+    padding: 11px 12px;
 
-    bottom:18px;
-    left:50%;
+    margin-bottom: 3px;
 
-    transform:translateX(-50%);
+    color: #8f99a9;
 
-    display:flex;
-    gap:6px;
+    background: transparent;
 
-    padding:8px;
+    border: 0;
 
-    background:rgba(15,19,28,.88);
+    border-radius: 8px;
 
-    border:1px solid var(--border);
-    border-radius:18px;
+    cursor: pointer;
 
-    backdrop-filter:blur(20px);
+    text-align: left;
 
-    box-shadow:0 25px 70px #0009;
+    font-size: 11px;
 }
 
-.dock button{
-    width:48px;
-    height:45px;
+.settings-menu button:hover {
+    color: white;
 
-    border:0;
-    border-radius:12px;
-
-    background:transparent;
-
-    color:white;
-
-    font-size:20px;
+    background: rgba(255,255,255,.04);
 }
 
-.dock button:hover{
-    background:#273247;
+.settings-menu button.active {
+    color: white;
+
+    background: #202a38;
 }
 
-/* =====================================================
+.settings-content {
+    padding: 28px;
+}
+
+.settings-content h2 {
+    margin: 0;
+
+    font-size: 21px;
+}
+
+.settings-description {
+    margin: 7px 0 25px;
+
+    color: #788393;
+
+    font-size: 11px;
+}
+
+.setting-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 17px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.setting-title {
+    font-size: 12px;
+}
+
+.setting-help {
+    margin-top: 4px;
+
+    color: #697384;
+
+    font-size: 10px;
+}
+
+.toggle {
+    position: relative;
+
+    width: 42px;
+    height: 23px;
+
+    flex-shrink: 0;
+
+    background: #303845;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.toggle::after {
+    content: "";
+
+    position: absolute;
+
+    width: 17px;
+    height: 17px;
+
+    left: 3px;
+    top: 3px;
+
+    background: #dce1e8;
+
+    border-radius: 50%;
+
+    transition: .2s;
+}
+
+.toggle.on {
+    background: var(--blue2);
+}
+
+.toggle.on::after {
+    left: 22px;
+}
+
+.range {
+    width: 180px;
+}
+
+.settings-buttons {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.performance-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 13px;
+}
+
+.performance-value {
+    margin-top: 9px;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
    MODAL
-===================================================== */
+========================================================= */
 
-.modal{
-    position:fixed;
-    inset:0;
+.modal {
+    position: fixed;
+    inset: 0;
 
-    display:none;
+    z-index: 9000;
 
-    align-items:center;
-    justify-content:center;
+    display: none;
 
-    z-index:5000;
+    align-items: center;
+    justify-content: center;
 
-    background:#0009;
+    background: rgba(0,0,0,.68);
+
+    backdrop-filter: blur(7px);
 }
 
-.modal-box{
-    width:min(650px,90vw);
+.modal-box {
+    width: min(620px, 90vw);
 
-    padding:28px;
+    padding: 28px;
 
-    background:#121823;
+    background: #141a23;
 
-    border:1px solid var(--border);
+    border: 1px solid var(--border);
 
-    border-radius:18px;
+    border-radius: 16px;
 
-    box-shadow:0 30px 100px #000;
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.7);
 }
 
-.close{
-    float:right;
+.close {
+    float: right;
 
-    padding:5px 10px;
+    width: 28px;
+    height: 28px;
 
-    border:0;
-    border-radius:8px;
+    color: #aab3c0;
 
-    background:#273247;
+    background: #252c37;
 
-    color:white;
+    border: 0;
+
+    border-radius: 7px;
+
+    cursor: pointer;
 }
 
-/* =====================================================
+
+/* =========================================================
+   DOCK
+========================================================= */
+
+.dock {
+    position: fixed;
+
+    left: 50%;
+    bottom: 16px;
+
+    z-index: 3000;
+
+    display: flex;
+
+    gap: 5px;
+
+    padding: 7px;
+
+    transform: translateX(-50%);
+
+    background: rgba(17,21,29,.88);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    backdrop-filter: blur(25px);
+
+    box-shadow: var(--shadow);
+}
+
+.dock button {
+    width: 48px;
+    height: 39px;
+
+    color: #9ba5b5;
+
+    background: transparent;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    transition: .18s;
+}
+
+.dock button:hover {
+    color: white;
+
+    background: #252e3b;
+}
+
+
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
 
-.toast{
-    position:fixed;
+.toast {
+    position: fixed;
 
-    right:25px;
-    top:60px;
+    top: 65px;
+    right: 22px;
 
-    z-index:8000;
+    z-index: 10000;
 
-    padding:13px 18px;
+    padding: 12px 17px;
 
-    background:#182235;
+    color: #e9edf2;
 
-    border:1px solid var(--border);
+    background: #1b222d;
 
-    border-radius:10px;
+    border: 1px solid var(--border);
 
-    box-shadow:0 15px 40px #0008;
+    border-radius: 9px;
 
-    animation:toastIn .2s ease;
+    box-shadow: var(--shadow);
+
+    font-size: 11px;
 }
 
-@keyframes toastIn{
-    from{
-        transform:translateX(30px);
-        opacity:0;
-    }
-    to{
-        transform:translateX(0);
-        opacity:1;
-    }
-}
 
-/* =====================================================
+/* =========================================================
    RESPONSIVE
-===================================================== */
+========================================================= */
 
-@media(max-width:1000px){
+@media(max-width: 1000px) {
 
-    .grid{
+    .stat-grid {
         grid-template-columns:
-            repeat(2,1fr);
+            repeat(2, 1fr);
     }
 
-    .games{
+    .game-grid {
         grid-template-columns:
-            repeat(2,1fr);
+            repeat(2, 1fr);
     }
 }
 
-@media(max-width:700px){
+@media(max-width: 700px) {
 
-    .sidebar{
-        width:70px;
+    .sidebar {
+        width: 65px;
     }
 
-    .sidebar-logo,
-    .sidebar-sub{
-        display:none;
+    .logo-area,
+    .nav-label {
+        display: none;
     }
 
-    .nav button{
-        font-size:0;
-        text-align:center;
+    .nav button {
+        justify-content: center;
     }
 
-    .content{
-        padding:25px 20px 100px;
+    .nav-icon {
+        width: auto;
     }
 
-    .hero{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:20px;
+    .nav-text {
+        display: none;
     }
 
-    .games{
-        grid-template-columns:1fr;
+    .content {
+        padding: 25px 20px 100px;
     }
 
-    .store-toolbar{
-        flex-direction:column;
+    .game-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .settings-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-menu {
+        display: flex;
+
+        overflow-x: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .settings-menu button {
+        min-width: 125px;
+    }
+
+    .top-center {
+        display: none;
     }
 }
 </style>
 </head>
 
-
 <body>
 
 
-<!-- =====================================================
-     APOLLO BOOT SCREEN
-===================================================== -->
+<!-- =========================================================
+     BOOT
+========================================================= -->
 
-<div id="bootScreen">
+<div id="boot">
 
-    <div class="boot">
+    <div class="boot-container">
 
-        <div class="apollo-symbol">
-            ◉
+        <div class="boot-logo">
+            A
         </div>
 
-        <h1>
+        <div class="boot-title">
             APOLLO
-        </h1>
-
-        <p>
-            GAME OS
-        </p>
-
-        <div class="boot-progress">
-            <div></div>
         </div>
 
-        <div id="bootStatus">
-            INITIALIZING APOLLO CORE...
+        <div class="boot-subtitle">
+            GAME OPERATING SYSTEM
+        </div>
+
+        <div class="boot-track">
+            <div class="boot-progress"></div>
+        </div>
+
+        <div
+            id="bootStatus"
+            class="boot-status"
+        >
+            Initializing Apollo Core
         </div>
 
     </div>
@@ -778,170 +1212,206 @@ button{
 </div>
 
 
-<!-- =====================================================
-     DESKTOP
-===================================================== -->
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
 
-<div id="desktop">
+<div id="app">
 
 
-<header class="topbar">
+    <!-- TOP BAR -->
 
-    <span class="brand">
-        ◉ APOLLO
-    </span>
+    <header class="topbar">
 
-    <span class="top-menu">
-        Game OS
-    </span>
+        <div class="window-controls">
 
-    <div class="top-right">
+            <span class="window-control"></span>
+            <span class="window-control"></span>
+            <span class="window-control"></span>
 
-        <span>
-            🎧
-        </span>
+        </div>
 
-        <span>
-            ⚡
-        </span>
+        <div class="brand">
+            APOLLO
+        </div>
 
-        <span>
-            ▣
-        </span>
+        <div class="top-center">
+            Game Operating System
+        </div>
 
-        <span id="clock">
-            --:--
-        </span>
+        <div class="top-right">
+
+            <span id="gamingIndicator">
+                Balanced
+            </span>
+
+            <span id="clock">
+                --:--
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <div class="main">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo-area">
+
+                <div class="logo-name">
+                    APOLLO
+                </div>
+
+                <div class="logo-caption">
+                    GAMING COMMAND CENTER
+                </div>
+
+            </div>
+
+
+            <div class="nav-label">
+                SYSTEM
+            </div>
+
+
+            <nav class="nav">
+
+                <button
+                    class="active"
+                    onclick="navigate('home', this)"
+                >
+                    <span class="nav-icon">H</span>
+                    <span class="nav-text">Home</span>
+                </button>
+
+
+                <button
+                    onclick="navigate('library', this)"
+                >
+                    <span class="nav-icon">G</span>
+                    <span class="nav-text">
+                        Game Library
+                    </span>
+                </button>
+
+
+                <button
+                    onclick="navigate('store', this)"
+                >
+                    <span class="nav-icon">S</span>
+                    <span class="nav-text">
+                        Apollo Store
+                    </span>
+                </button>
+
+
+                <div class="nav-label">
+                    MONITOR
+                </div>
+
+
+                <button
+                    onclick="navigate('performance', this)"
+                >
+                    <span class="nav-icon">P</span>
+                    <span class="nav-text">
+                        Performance
+                    </span>
+                </button>
+
+
+                <button
+                    onclick="navigate('hardware', this)"
+                >
+                    <span class="nav-icon">H</span>
+                    <span class="nav-text">
+                        Hardware
+                    </span>
+                </button>
+
+
+                <div class="nav-label">
+                    CONFIGURATION
+                </div>
+
+
+                <button
+                    onclick="navigate('settings', this)"
+                >
+                    <span class="nav-icon">C</span>
+                    <span class="nav-text">
+                        Settings
+                    </span>
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- CONTENT -->
+
+        <main
+            id="content"
+            class="content"
+        ></main>
+
 
     </div>
 
-</header>
 
+    <!-- DOCK -->
 
-<div class="layout">
+    <div class="dock">
 
-
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
-
-<aside class="sidebar">
-
-    <div class="sidebar-logo">
-        APOLLO
-    </div>
-
-    <div class="sidebar-sub">
-        GAMING COMMAND CENTER
-    </div>
-
-
-    <div class="nav">
-
-        <button
-            class="active"
-            onclick="showPage('home',this)">
-            ⌂ &nbsp; Home
+        <button onclick="navigate('home')">
+            HOME
         </button>
 
-
-        <button
-            onclick="showPage('games',this)">
-            🎮 &nbsp; Game Library
+        <button onclick="navigate('library')">
+            GAMES
         </button>
 
-
-        <button
-            onclick="showPage('store',this)">
-            🛍️ &nbsp; Apollo Store
+        <button onclick="navigate('store')">
+            STORE
         </button>
 
-
-        <button
-            onclick="showPage('performance',this)">
-            ⚡ &nbsp; Performance
+        <button onclick="toggleGamingMode()">
+            BOOST
         </button>
 
-
-        <button
-            onclick="showPage('hardware',this)">
-            ▣ &nbsp; Hardware
+        <button onclick="navigate('performance')">
+            PERF
         </button>
 
-
-        <button
-            onclick="showPage('settings',this)">
-            ⚙ &nbsp; Settings
+        <button onclick="navigate('settings')">
+            SET
         </button>
 
     </div>
-
-</aside>
-
-
-<!-- =====================================================
-     CONTENT
-===================================================== -->
-
-<main
-    class="content"
-    id="content">
-</main>
-
 
 </div>
 
 
-<!-- =====================================================
-     DOCK
-===================================================== -->
-
-<div class="dock">
-
-    <button onclick="showPage('home')">
-        ⌂
-    </button>
-
-    <button onclick="showPage('games')">
-        🎮
-    </button>
-
-    <button onclick="showPage('store')">
-        🛍️
-    </button>
-
-    <button onclick="toggleGamingMode()">
-        ⚡
-    </button>
-
-    <button onclick="showPage('performance')">
-        📊
-    </button>
-
-    <button onclick="showPage('settings')">
-        ⚙
-    </button>
-
-</div>
-
-
-</div>
-
-
-<!-- =====================================================
-     MODAL
-===================================================== -->
+<!-- MODAL -->
 
 <div
+    id="modal"
     class="modal"
-    id="modal">
+>
 
     <div class="modal-box">
 
         <button
             class="close"
-            onclick="closeModal()">
-            ×
+            onclick="closeModal()"
+        >
+            X
         </button>
 
         <div id="modalContent"></div>
@@ -953,215 +1423,213 @@ button{
 
 <script>
 
-/* =====================================================
-   APOLLO CORE STATE
-===================================================== */
+/* =========================================================
+   APOLLO STATE
+========================================================= */
 
-const APOLLO_GAME_COUNT = 50000;
+const content =
+    document.getElementById("content");
+
+let games = [];
+
+let installed =
+    new Set();
 
 let gamingMode = false;
 
 let currentPage = "home";
 
-let storeGames = [];
+let settingsSection =
+    "performance";
 
-let installedGames =
-    new Set();
+let settings = {
 
-let wishlist =
-    new Set();
+    performanceMode: true,
 
+    rayTracing: true,
 
-/* =====================================================
-   STORE DATA
-===================================================== */
+    vSync: false,
 
-const genres = [
+    autoUpdates: true,
 
-    "Action",
-    "Adventure",
-    "RPG",
-    "Racing",
-    "Strategy",
-    "Simulation",
-    "Sports",
-    "Shooter",
-    "Indie",
-    "Survival",
-    "Horror",
-    "Puzzle",
-    "Platformer",
-    "MMO",
-    "Sandbox"
+    cloudSync: true,
 
-];
+    notifications: true,
+
+    startupApps: false,
+
+    fullscreenOptimization: true,
+
+    resolution: "1920 × 1080",
+
+    refreshRate: "144 Hz",
+
+    quality: "Ultra",
+
+    volume: 75
+
+};
 
 
-const prefixes = [
+/* =========================================================
+   SETTINGS STORAGE
+========================================================= */
 
-    "Nebula",
-    "Galaxy",
-    "Titan",
-    "Shadow",
-    "Quantum",
-    "Cyber",
-    "Nova",
-    "Eclipse",
-    "Void",
-    "Apollo",
-    "Starlight",
-    "Velocity",
-    "Infinity",
-    "Frontier",
-    "Overdrive",
-    "Phantom",
-    "Crimson",
-    "Legend",
-    "Storm",
-    "Empire"
+function loadSettings() {
 
-];
+    const saved =
+        localStorage.getItem(
+            "apolloSettings"
+        );
 
+    if (!saved)
+        return;
 
-const suffixes = [
+    try {
 
-    "Rising",
-    "Origins",
-    "Reborn",
-    "Zero",
-    "Legacy",
-    "Frontier",
-    "Arena",
-    "Protocol",
-    "Chronicles",
-    "Online",
-    "Evolution",
-    "Wars",
-    "Odyssey",
-    "Nexus",
-    "Unlimited"
+        settings = {
+            ...settings,
+            ...JSON.parse(saved)
+        };
 
-];
+    } catch(error) {
 
-
-/* =====================================================
-   GENERATE 50,000 STORE RECORDS
-===================================================== */
-
-function generateStore(){
-
-    const batchSize = 5000;
-
-    for(
-        let i = 1;
-        i <= APOLLO_GAME_COUNT;
-        i++
-    ){
-
-        const genre =
-            genres[
-                i % genres.length
-            ];
-
-        const title =
-            prefixes[
-                i % prefixes.length
-            ]
-            + " "
-            +
-            suffixes[
-                Math.floor(
-                    i / prefixes.length
-                ) % suffixes.length
-            ]
-            + " "
-            + i;
-
-
-        const free =
-            i % 9 === 0;
-
-
-        storeGames.push({
-
-            id:i,
-
-            title:title,
-
-            genre:genre,
-
-            rating:
-                (
-                    3.5 +
-                    Math.random()*1.5
-                ).toFixed(1),
-
-            players:
-                Math.floor(
-                    Math.random()*500000
-                ) + 100,
-
-            price:
-                free
-                    ? 0
-                    : Number(
-                        (
-                            4.99 +
-                            Math.random()*55
-                        ).toFixed(2)
-                    ),
-
-            compatibility:
-                i % 4 === 0
-                    ? "APOLLO Native"
-                    : "Windows Compatible"
-
-        });
+        console.warn(
+            "Could not load Apollo settings."
+        );
 
     }
-
 }
 
 
-/* =====================================================
+function saveSettings() {
+
+    localStorage.setItem(
+        "apolloSettings",
+        JSON.stringify(settings)
+    );
+
+    notify("Settings saved.");
+}
+
+
+function resetSettings() {
+
+    localStorage.removeItem(
+        "apolloSettings"
+    );
+
+    location.reload();
+}
+
+
+/* =========================================================
+   LIBRARY STORAGE
+========================================================= */
+
+function loadInstalledGames() {
+
+    const saved =
+        localStorage.getItem(
+            "apolloInstalledGames"
+        );
+
+    if (!saved)
+        return;
+
+    try {
+
+        installed =
+            new Set(
+                JSON.parse(saved)
+            );
+
+    } catch(error) {
+
+        installed =
+            new Set();
+
+    }
+}
+
+
+function saveInstalledGames() {
+
+    localStorage.setItem(
+        "apolloInstalledGames",
+        JSON.stringify(
+            [...installed]
+        )
+    );
+}
+
+
+/* =========================================================
+   REAL GAME DATA
+========================================================= */
+
+/*
+    IMPORTANT:
+
+    There is deliberately NO fake game generator.
+
+    To connect a real Apollo Store backend later,
+    replace this function with your API request.
+
+    Example:
+
+        const response =
+            await fetch("/api/games");
+
+        games = await response.json();
+
+    Expected format:
+
+        [
+            {
+                "id": "game-123",
+                "title": "Real Game",
+                "genre": "Action",
+                "price": 29.99
+            }
+        ]
+*/
+
+async function loadGames() {
+
+    games = [];
+
+    renderStore();
+}
+
+
+/* =========================================================
    BOOT
-===================================================== */
+========================================================= */
 
 const bootMessages = [
-
-    "INITIALIZING APOLLO CORE...",
-
-    "DETECTING HARDWARE...",
-
-    "LOADING GRAPHICS SUBSYSTEM...",
-
-    "STARTING GAME RUNTIME...",
-
-    "INDEXING GAME STORE...",
-
-    "STARTING APOLLO DESKTOP...",
-
-    "SYSTEM READY."
-
+    "Initializing Apollo Core",
+    "Detecting system hardware",
+    "Loading gaming services",
+    "Starting desktop services",
+    "Preparing user environment",
+    "Apollo is ready"
 ];
 
-
 let bootIndex = 0;
-
 
 const bootStatus =
     document.getElementById(
         "bootStatus"
     );
 
-
 const bootTimer =
     setInterval(() => {
 
-        if(
+        if (
             bootIndex <
             bootMessages.length
-        ){
+        ) {
 
             bootStatus.textContent =
                 bootMessages[
@@ -1170,97 +1638,86 @@ const bootTimer =
 
             bootIndex++;
 
-        }else{
-
-            clearInterval(
-                bootTimer
-            );
-
-
-            document
-                .getElementById(
-                    "bootScreen"
-                )
-                .style.display =
-                "none";
-
-
-            document
-                .getElementById(
-                    "desktop"
-                )
-                .style.display =
-                "block";
-
-
-            generateStore();
-
-            renderHome();
-
-            updateClock();
-
         }
 
-    },450);
+    }, 560);
 
 
-/* =====================================================
+setTimeout(async () => {
+
+    clearInterval(
+        bootTimer
+    );
+
+    document.getElementById(
+        "boot"
+    ).style.display = "none";
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+    loadSettings();
+
+    loadInstalledGames();
+
+    await loadGames();
+
+    navigate("home");
+
+    updateClock();
+
+}, 3500);
+
+
+/* =========================================================
    CLOCK
-===================================================== */
+========================================================= */
 
-function updateClock(){
+function updateClock() {
 
-    const now =
-        new Date();
-
-
-    document
-        .getElementById("clock")
-        .textContent =
-        now.toLocaleString(
+    document.getElementById(
+        "clock"
+    ).textContent =
+        new Date().toLocaleTimeString(
             [],
             {
-                weekday:"short",
-                hour:"2-digit",
-                minute:"2-digit"
+                hour: "2-digit",
+                minute: "2-digit"
             }
         );
-
 
     setTimeout(
         updateClock,
         1000
     );
-
 }
 
 
-/* =====================================================
-   PAGE ROUTER
-===================================================== */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-function showPage(
+function navigate(
     page,
     button
-){
+) {
 
     currentPage =
         page;
-
 
     document
         .querySelectorAll(
             ".nav button"
         )
         .forEach(
-            b =>
-            b.classList.remove(
+            item =>
+            item.classList.remove(
                 "active"
             )
         );
 
-
-    if(button){
+    if (button) {
 
         button.classList.add(
             "active"
@@ -1268,317 +1725,445 @@ function showPage(
 
     }
 
+    switch(page) {
 
-    if(page === "home")
-        renderHome();
+        case "home":
+            renderHome();
+            break;
 
+        case "library":
+            renderLibrary();
+            break;
 
-    if(page === "games")
-        renderGames();
+        case "store":
+            renderStore();
+            break;
 
+        case "performance":
+            renderPerformance();
+            break;
 
-    if(page === "store")
-        renderStore();
+        case "hardware":
+            renderHardware();
+            break;
 
+        case "settings":
+            renderSettings();
+            break;
 
-    if(page === "performance")
-        renderPerformance();
-
-
-    if(page === "hardware")
-        renderHardware();
-
-
-    if(page === "settings")
-        renderSettings();
-
+    }
 }
 
 
-/* =====================================================
+/* =========================================================
    HOME
-===================================================== */
+========================================================= */
 
-function renderHome(){
+function renderHome() {
 
-    document
-        .getElementById(
-            "content"
-        )
-        .innerHTML = `
+    content.innerHTML = `
 
         <div class="hero">
 
-            <div>
+            <div class="hero-content">
 
-                <div class="hero-label">
+                <div class="hero-tag">
                     APOLLO GAME OS
                 </div>
 
-                <h1>
-                    Ready to play.
-                </h1>
+                <h2>
+                    Your games.
+                    Your system.
+                    Your command center.
+                </h2>
 
                 <p>
-                    Your gaming command center
-                    is ready.
+                    A gaming-focused desktop
+                    environment built for speed,
+                    control and customization.
                 </p>
+
+                <button
+                    class="primary"
+                    onclick="navigate('store')"
+                >
+                    OPEN APOLLO STORE
+                </button>
 
             </div>
 
-
-            <button
-                class="primary"
-                onclick="
-                    showPage('store')
-                "
-            >
-                OPEN APOLLO STORE
-            </button>
-
         </div>
 
 
-        <div class="grid">
+        <div class="stat-grid">
 
-            ${statCard(
+            ${stat(
                 "GAMING MODE",
                 gamingMode
-                    ? "ON"
-                    : "OFF"
+                    ? "ACTIVE"
+                    : "BALANCED",
+                gamingMode
+                    ? "Performance profile enabled"
+                    : "Standard system profile"
             )}
 
-            ${statCard(
-                "STORE",
-                "50,000"
+            ${stat(
+                "GAME LIBRARY",
+                games.length,
+                "Connected games"
             )}
 
-            ${statCard(
-                "GPU",
-                "READY"
+            ${stat(
+                "GRAPHICS",
+                "—",
+                "Hardware service not connected"
             )}
 
-            ${statCard(
-                "FPS TARGET",
-                "144"
+            ${stat(
+                "PERFORMANCE",
+                "—",
+                "Telemetry not connected"
             )}
 
         </div>
 
 
-        <h3 class="section-title">
-            Quick Launch
-        </h3>
+        <div
+            class="page-header"
+            style="
+                margin-top:32px;
+                margin-bottom:14px;
+            "
+        >
+
+            <h1 style="font-size:19px">
+                Installed Games
+            </h1>
+
+        </div>
 
 
-        <div class="games">
+        ${
+            installed.size === 0
 
-            ${gameCard(
-                "Cyber Arena",
-                "Competitive • 144 FPS"
-            )}
+            ? emptyState(
+                "No games installed",
+                "Install a game from a connected Apollo Store."
+            )
 
-            ${gameCard(
-                "Nebula Racing",
-                "Racing • Ultra"
-            )}
+            : renderInstalledGames()
+        }
 
-            ${gameCard(
-                "Apollo Test Game",
-                "Native • Optimized"
-            )}
+    `;
+}
+
+
+function renderInstalledGames() {
+
+    const installedGames =
+        games.filter(
+            game =>
+            installed.has(game.id)
+        );
+
+    if (
+        installedGames.length === 0
+    ) {
+
+        return emptyState(
+            "No installed games available",
+            "Your installed-game database contains no currently connected games."
+        );
+
+    }
+
+    return `
+
+        <div class="game-grid">
+
+            ${
+                installedGames
+                .map(gameCard)
+                .join("")
+            }
 
         </div>
 
     `;
-
 }
 
 
-function statCard(
-    title,
-    value
-){
+/* =========================================================
+   STAT
+========================================================= */
+
+function stat(
+    label,
+    value,
+    sub
+) {
 
     return `
 
         <div class="card">
 
-            <div class="card-title">
-                ${title}
+            <div class="card-label">
+                ${escapeHTML(label)}
             </div>
 
-            <div class="metric">
-                ${value}
+            <div class="card-value">
+                ${escapeHTML(value)}
+            </div>
+
+            <div class="card-sub">
+                ${escapeHTML(sub)}
             </div>
 
         </div>
 
     `;
-
 }
 
 
-/* =====================================================
-   GAME LIBRARY
-===================================================== */
+/* =========================================================
+   EMPTY STATE
+========================================================= */
 
-function renderGames(){
-
-    document
-        .getElementById(
-            "content"
-        )
-        .innerHTML = `
-
-        <h2>
-            Game Library
-        </h2>
-
-        <p class="subtitle">
-            Installed and ready-to-play games.
-        </p>
-
-
-        <div class="games">
-
-            ${gameCard(
-                "Cyber Arena",
-                "Competitive • 144 FPS"
-            )}
-
-            ${gameCard(
-                "Nebula Racing",
-                "Racing • Ultra"
-            )}
-
-            ${gameCard(
-                "Starfall",
-                "Adventure • High"
-            )}
-
-        </div>
-
-    `;
-
-}
-
-
-function gameCard(
+function emptyState(
     title,
     description
-){
+) {
+
+    return `
+
+        <div
+            class="card"
+            style="
+                padding:55px;
+                text-align:center;
+            "
+        >
+
+            <h2>
+                ${escapeHTML(title)}
+            </h2>
+
+            <p
+                class="settings-description"
+                style="
+                    margin-bottom:0;
+                "
+            >
+                ${escapeHTML(description)}
+            </p>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   LIBRARY
+========================================================= */
+
+function renderLibrary() {
+
+    const library =
+        games.filter(
+            game =>
+            installed.has(game.id)
+        );
+
+    content.innerHTML = `
+
+        <div class="page-header">
+
+            <h1>
+                Game Library
+            </h1>
+
+            <p>
+                Games installed on Apollo.
+            </p>
+
+        </div>
+
+
+        ${
+            library.length === 0
+
+            ? emptyState(
+                "Your library is empty",
+                "Install games from the Apollo Store."
+            )
+
+            : `
+                <div class="game-grid">
+
+                    ${
+                        library
+                        .map(gameCard)
+                        .join("")
+                    }
+
+                </div>
+            `
+        }
+
+    `;
+}
+
+
+/* =========================================================
+   GAME CARD
+========================================================= */
+
+function gameCard(game) {
 
     return `
 
         <div class="game">
 
-            <small>
-                ${description}
-            </small>
+            <div class="game-category">
+
+                ${escapeHTML(
+                    game.genre ||
+                    "Game"
+                )}
+
+            </div>
 
             <h3>
-                ${title}
+                ${escapeHTML(
+                    game.title
+                )}
             </h3>
 
-            <button
-                class="play"
-                onclick="
-                    demoLaunch('${title}')
-                "
-            >
-                PLAY
-            </button>
+            <div class="game-meta">
+
+                ${
+                    game.price === 0
+                    ? "Free"
+                    :
+                    game.price != null
+                    ? "$" +
+                      escapeHTML(
+                          game.price
+                      )
+                    : "Price unavailable"
+                }
+
+            </div>
+
+            <div class="game-actions">
+
+                <button
+                    class="play"
+                    onclick="
+                        launchGame(
+                            '${escapeAttribute(
+                                game.id
+                            )}'
+                        )
+                    "
+                >
+                    PLAY
+                </button>
+
+            </div>
 
         </div>
 
     `;
-
 }
 
 
-/* =====================================================
+/* =========================================================
    STORE
-===================================================== */
+========================================================= */
 
 function renderStore(
     search = "",
     genre = "All"
-){
+) {
 
-    let results =
-        storeGames;
+    let result =
+        [...games];
 
+    if (search) {
 
-    if(search.trim()){
+        const query =
+            search.toLowerCase();
 
-        const q =
-            search
-                .toLowerCase();
-
-
-        results =
-            results.filter(
+        result =
+            result.filter(
                 game =>
+                String(
                     game.title
-                        .toLowerCase()
-                        .includes(q)
+                )
+                .toLowerCase()
+                .includes(query)
             );
 
     }
 
+    if (genre !== "All") {
 
-    if(genre !== "All"){
-
-        results =
-            results.filter(
+        result =
+            result.filter(
                 game =>
-                    game.genre === genre
+                game.genre === genre
             );
 
     }
 
 
-    const visible =
-        results.slice(0,60);
+    const genres =
+        [
+            ...new Set(
+                games
+                .map(
+                    game =>
+                    game.genre
+                )
+                .filter(Boolean)
+            )
+        ];
 
 
-    document
-        .getElementById(
-            "content"
-        )
-        .innerHTML = `
+    content.innerHTML = `
 
-        <h2>
-            🛍️ APOLLO GAME STORE
-        </h2>
+        <div class="page-header">
 
-        <p class="subtitle">
+            <h1>
+                Apollo Store
+            </h1>
 
-            Discover
-            ${APOLLO_GAME_COUNT.toLocaleString()}
-            catalog entries.
+            <p>
+                Real game catalog connected to Apollo.
+            </p>
 
-        </p>
+        </div>
 
 
-        <div class="store-toolbar">
+        <div class="store-tools">
 
             <input
                 id="storeSearch"
-                class="store-search"
-                placeholder="
-                    Search 50,000 games...
-                "
-                value="${escapeHTML(search)}"
-                oninput="storeSearchChanged()"
+                class="search"
+                placeholder="Search games"
+                value="${escapeAttribute(
+                    search
+                )}"
+                oninput="searchStore()"
             >
 
 
             <select
-                id="genreFilter"
-                class="store-select"
-                onchange="storeFilterChanged()"
+                id="storeGenre"
+                class="select"
+                onchange="filterStore()"
             >
 
                 <option>
@@ -1586,20 +2171,27 @@ function renderStore(
                 </option>
 
                 ${
-                    genres.map(
-                        g =>
+                    genres
+                    .map(
+                        item =>
                         `
                         <option
+                            value="${escapeAttribute(
+                                item
+                            )}"
                             ${
-                                g === genre
+                                genre === item
                                 ? "selected"
                                 : ""
                             }
                         >
-                            ${g}
+                            ${escapeHTML(
+                                item
+                            )}
                         </option>
                         `
-                    ).join("")
+                    )
+                    .join("")
                 }
 
             </select>
@@ -1607,500 +2199,79 @@ function renderStore(
         </div>
 
 
-        <div class="card store-count">
-
-            <strong>
-                ${results.length.toLocaleString()}
-            </strong>
-
-            <span class="subtitle">
-                games found
-            </span>
-
-        </div>
-
-
-        <div class="games">
-
-            ${
-                visible.length
-                ?
-                visible
-                    .map(
-                        storeGameCard
-                    )
-                    .join("")
-                :
-                `
-                <div class="card">
-                    No games found.
-                </div>
-                `
-            }
-
-        </div>
-
-
         ${
-            results.length > 60
-            ?
+            games.length === 0
+
+            ? emptyState(
+                "Apollo Store is not connected",
+                "No game catalog has been supplied. Connect a real game-store API to populate this page."
+            )
+
+            : `
+
+                <div class="store-info">
+
+                    ${result.length}
+                    game${
+                        result.length === 1
+                        ? ""
+                        : "s"
+                    }
+
+                    found
+
+                </div>
+
+
+                ${
+                    result.length === 0
+
+                    ? emptyState(
+                        "No games found",
+                        "Try another search."
+                    )
+
+                    : `
+                        <div class="game-grid">
+
+                            ${
+                                result
+                                .map(
+                                    gameCard
+                                )
+                                .join("")
+                            }
+
+                        </div>
+                    `
+                }
+
             `
-            <p
-                class="subtitle"
-                style="
-                    text-align:center;
-                    margin:30px;
-                "
-            >
-                Showing 60 results.
-                Refine your search to find more.
-            </p>
-            `
-            :
-            ""
         }
 
     `;
-
 }
 
 
-function storeGameCard(
-    game
-){
-
-    const installed =
-        installedGames.has(
-            game.id
-        );
-
-
-    const wished =
-        wishlist.has(
-            game.id
-        );
-
-
-    const price =
-        game.price === 0
-            ? "FREE"
-            : "$" + game.price;
-
-
-    return `
-
-        <div class="game">
-
-            <div
-                style="
-                    position:absolute;
-                    top:15px;
-                    left:18px;
-                    font-weight:800;
-                "
-            >
-                ${price}
-            </div>
-
-
-            <small>
-                ${game.genre}
-                • ⭐ ${game.rating}
-            </small>
-
-
-            <h3>
-                ${game.title}
-            </h3>
-
-
-            <small>
-                ${game.compatibility}
-            </small>
-
-
-            <div
-                style="
-                    display:flex;
-                    gap:7px;
-                    margin-top:10px;
-                "
-            >
-
-                <button
-                    class="play"
-                    onclick="
-                        storeAction(
-                            ${game.id}
-                        )
-                    "
-                >
-
-                    ${
-                        installed
-                        ? "PLAY"
-                        : "INSTALL"
-                    }
-
-                </button>
-
-
-                <button
-                    onclick="
-                        toggleWishlist(
-                            ${game.id}
-                        )
-                    "
-                    style="
-                        padding:8px 11px;
-                        border:0;
-                        border-radius:8px;
-                        background:#273247;
-                        color:white;
-                    "
-                >
-
-                    ${
-                        wished
-                        ? "♥"
-                        : "♡"
-                    }
-
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   STORE ACTION
-===================================================== */
-
-function storeAction(id){
-
-    const game =
-        storeGames.find(
-            g =>
-            g.id === id
-        );
-
-
-    if(!game)
-        return;
-
-
-    if(
-        installedGames.has(
-            id
-        )
-    ){
-
-        launchInstalledGame(
-            game
-        );
-
-    }else{
-
-        installGame(
-            game
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   INSTALL
-===================================================== */
-
-function installGame(
-    game
-){
-
-    openModal(`
-
-        <div class="card-title">
-            APOLLO INSTALLER
-        </div>
-
-        <h2>
-            Installing ${game.title}
-        </h2>
-
-        <p class="subtitle">
-            Preparing APOLLO Game Runtime...
-        </p>
-
-
-        <div
-            class="progress"
-            style="margin-top:20px"
-        >
-
-            <div
-                id="installBar"
-                style="width:0%"
-            ></div>
-
-        </div>
-
-
-        <p
-            id="installText"
-            class="subtitle"
-        >
-            0%
-        </p>
-
-    `);
-
-
-    let progress = 0;
-
-
-    const timer =
-        setInterval(
-            () => {
-
-                progress +=
-                    Math.floor(
-                        Math.random()*12
-                    ) + 5;
-
-
-                if(progress >= 100){
-
-                    progress = 100;
-
-                    clearInterval(
-                        timer
-                    );
-
-
-                    installedGames.add(
-                        game.id
-                    );
-
-
-                    openModal(`
-
-                        <div class="card-title">
-                            INSTALLATION COMPLETE
-                        </div>
-
-                        <h2>
-                            ${game.title}
-                        </h2>
-
-                        <p class="subtitle">
-                            The game is ready.
-                        </p>
-
-                        <button
-                            class="primary"
-                            onclick="
-                                closeModal();
-                                launchInstalledGame(
-                                    storeGames.find(
-                                        g =>
-                                        g.id ===
-                                        ${game.id}
-                                    )
-                                );
-                            "
-                        >
-                            PLAY NOW
-                        </button>
-
-                    `);
-
-
-                    renderStore();
-
-                    return;
-
-                }
-
-
-                const bar =
-                    document.getElementById(
-                        "installBar"
-                    );
-
-
-                const text =
-                    document.getElementById(
-                        "installText"
-                    );
-
-
-                if(bar)
-                    bar.style.width =
-                        progress + "%";
-
-
-                if(text)
-                    text.textContent =
-                        progress + "%";
-
-
-            },
-            250
-        );
-
-}
-
-
-/* =====================================================
-   LAUNCH
-===================================================== */
-
-function launchInstalledGame(
-    game
-){
-
-    gamingMode = true;
-
-
-    openModal(`
-
-        <div class="card-title">
-            APOLLO GAME RUNTIME
-        </div>
-
-        <h2>
-            ${game.title}
-        </h2>
-
-        <p class="subtitle">
-            Game session started.
-        </p>
-
-
-        <div class="grid">
-
-            ${statCard(
-                "GPU",
-                "ACTIVE"
-            )}
-
-            ${statCard(
-                "GAMING MODE",
-                "ON"
-            )}
-
-            ${statCard(
-                "FPS",
-                "144"
-            )}
-
-            ${statCard(
-                "RUNTIME",
-                "APOLLO"
-            )}
-
-        </div>
-
-
-        <p class="subtitle">
-            In the final APOLLO OS,
-            this runtime will hand execution
-            to the actual installed game.
-        </p>
-
-    `);
-
-}
-
-
-/* =====================================================
-   DEMO GAME
-===================================================== */
-
-function demoLaunch(
-    title
-){
-
-    notification(
-        "Launching " + title
-    );
-
-    gamingMode = true;
-
-    setTimeout(
-        () =>
-        notification(
-            "Gaming Mode enabled"
-        ),
-        500
-    );
-
-}
-
-
-/* =====================================================
-   WISHLIST
-===================================================== */
-
-function toggleWishlist(
-    id
-){
-
-    if(
-        wishlist.has(id)
-    ){
-
-        wishlist.delete(id);
-
-    }else{
-
-        wishlist.add(id);
-
-    }
-
-
-    renderStore();
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-let searchTimer;
-
-
-function storeSearchChanged(){
+function searchStore() {
 
     clearTimeout(
-        searchTimer
+        window.searchTimer
     );
 
-
-    searchTimer =
+    window.searchTimer =
         setTimeout(
             () => {
 
                 const search =
-                    document
-                        .getElementById(
-                            "storeSearch"
-                        ).value;
-
+                    document.getElementById(
+                        "storeSearch"
+                    ).value;
 
                 const genre =
-                    document
-                        .getElementById(
-                            "genreFilter"
-                        ).value;
-
+                    document.getElementById(
+                        "storeGenre"
+                    ).value;
 
                 renderStore(
                     search,
@@ -2108,112 +2279,168 @@ function storeSearchChanged(){
                 );
 
             },
-            180
+            150
         );
-
 }
 
 
-function storeFilterChanged(){
+function filterStore() {
 
     const search =
-        document
-            .getElementById(
-                "storeSearch"
-            ).value;
-
+        document.getElementById(
+            "storeSearch"
+        ).value;
 
     const genre =
-        document
-            .getElementById(
-                "genreFilter"
-            ).value;
-
+        document.getElementById(
+            "storeGenre"
+        ).value;
 
     renderStore(
         search,
         genre
     );
-
 }
 
 
-/* =====================================================
-   PERFORMANCE
-===================================================== */
+/* =========================================================
+   INSTALL / LAUNCH
+========================================================= */
 
-function randomValue(
-    min,
-    max
-){
+function installGame(
+    id
+) {
 
-    return Math.floor(
-        Math.random() *
-        (max-min+1)
-        + min
+    const game =
+        games.find(
+            item =>
+            String(item.id) ===
+            String(id)
+        );
+
+    if (!game)
+        return;
+
+    installed.add(
+        game.id
     );
 
+    saveInstalledGames();
+
+    notify(
+        game.title +
+        " installed."
+    );
+
+    if (
+        currentPage ===
+        "store"
+    ) {
+
+        renderStore();
+
+    }
+
+    if (
+        currentPage ===
+        "library"
+    ) {
+
+        renderLibrary();
+
+    }
 }
 
 
-function renderPerformance(){
+function launchGame(
+    id
+) {
 
-    const cpu =
-        randomValue(
-            18,
-            45
+    const game =
+        games.find(
+            item =>
+            String(item.id) ===
+            String(id)
         );
 
+    if (!game)
+        return;
 
-    const gpu =
-        randomValue(
-            45,
-            80
-        );
-
-
-    const ram =
-        randomValue(
-            35,
-            60
-        );
-
-
-    document
-        .getElementById(
-            "content"
+    if (
+        !installed.has(
+            game.id
         )
-        .innerHTML = `
+    ) {
+
+        installGame(
+            game.id
+        );
+
+        return;
+
+    }
+
+
+    gamingMode =
+        true;
+
+    updateGamingIndicator();
+
+    openModal(`
 
         <h2>
-            Performance Center
+            ${escapeHTML(
+                game.title
+            )}
         </h2>
 
-        <p class="subtitle">
-            APOLLO system performance dashboard.
+        <p class="settings-description">
+            Apollo is ready to launch this game.
         </p>
 
+        <p class="settings-description">
+            A native game-launcher service must be
+            connected for the browser interface to
+            launch the actual executable.
+        </p>
 
-        <div class="grid">
+    `);
+}
 
-            ${performanceCard(
-                "CPU",
-                cpu
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+function renderPerformance() {
+
+    content.innerHTML = `
+
+        <div class="page-header">
+
+            <h1>
+                Performance
+            </h1>
+
+            <p>
+                Live hardware telemetry.
+            </p>
+
+        </div>
+
+
+        <div class="performance-grid">
+
+            ${performanceUnavailable(
+                "CPU"
             )}
 
-            ${performanceCard(
-                "GPU",
-                gpu
+            ${performanceUnavailable(
+                "GPU"
             )}
 
-            ${performanceCard(
-                "MEMORY",
-                ram
-            )}
-
-            ${statCard(
-                "FPS TARGET",
-                "144"
+            ${performanceUnavailable(
+                "MEMORY"
             )}
 
         </div>
@@ -2221,389 +2448,921 @@ function renderPerformance(){
 
         <div
             class="card"
-            style="margin-top:20px"
+            style="
+                margin-top:15px;
+            "
         >
 
-            <h3>
-                Gaming Mode
-            </h3>
+            <div class="card-label">
+                PERFORMANCE PROFILE
+            </div>
 
-            <p class="subtitle">
-
+            <h2>
                 ${
                     gamingMode
-                    ? "Maximum performance profile active."
-                    : "Balanced profile active."
+                    ? "Gaming Mode"
+                    : "Balanced Mode"
                 }
+            </h2>
 
+            <p class="settings-description">
+                ${
+                    gamingMode
+                    ? "Gaming Mode is enabled."
+                    : "Apollo is using Balanced Mode."
+                }
             </p>
-
 
             <button
                 class="primary"
-                onclick="
-                    toggleGamingMode()
-                "
+                onclick="toggleGamingMode()"
             >
-
                 ${
                     gamingMode
-                    ? "DISABLE"
-                    : "ENABLE"
+                    ? "DISABLE GAMING MODE"
+                    : "ENABLE GAMING MODE"
                 }
-
-                GAMING MODE
-
             </button>
 
         </div>
 
     `;
-
 }
 
 
-function performanceCard(
-    name,
-    value
-){
+function performanceUnavailable(
+    name
+) {
 
     return `
 
         <div class="card">
 
-            <div class="card-title">
-                ${name}
+            <div class="card-label">
+                ${escapeHTML(name)}
             </div>
 
-            <div class="metric">
-                ${value}%
+            <div class="performance-value">
+                —
             </div>
 
-
-            <div
-                class="progress"
-                style="
-                    margin-top:12px;
-                "
-            >
-
-                <div
-                    style="
-                        width:${value}%;
-                    "
-                ></div>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   HARDWARE
-===================================================== */
-
-function renderHardware(){
-
-    document
-        .getElementById(
-            "content"
-        )
-        .innerHTML = `
-
-        <h2>
-            Hardware
-        </h2>
-
-        <p class="subtitle">
-            APOLLO hardware overview.
-        </p>
-
-
-        <div class="grid">
-
-            ${hardwareCard(
-                "PROCESSOR",
-                "x86-64",
-                "High performance CPU"
-            )}
-
-            ${hardwareCard(
-                "GRAPHICS",
-                "GPU READY",
-                "Graphics subsystem active"
-            )}
-
-            ${hardwareCard(
-                "MEMORY",
-                "16 GB",
-                "System memory"
-            )}
-
-            ${hardwareCard(
-                "DISPLAY",
-                "144 Hz",
-                "Gaming display"
-            )}
-
-        </div>
-
-    `;
-
-}
-
-
-function hardwareCard(
-    title,
-    value,
-    description
-){
-
-    return `
-
-        <div class="card">
-
-            <div class="card-title">
-                ${title}
-            </div>
-
-            <div class="metric">
-                ${value}
-            </div>
-
-            <p class="subtitle">
-                ${description}
+            <p class="settings-description">
+                Hardware telemetry is not connected.
             </p>
 
         </div>
 
     `;
-
 }
 
 
-/* =====================================================
+/* =========================================================
+   HARDWARE
+========================================================= */
+
+function renderHardware() {
+
+    content.innerHTML = `
+
+        <div class="page-header">
+
+            <h1>
+                Hardware
+            </h1>
+
+            <p>
+                Hardware information supplied by
+                the Apollo system service.
+            </p>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+            ${stat(
+                "PROCESSOR",
+                "—",
+                "Hardware service not connected"
+            )}
+
+            ${stat(
+                "GRAPHICS",
+                "—",
+                "Hardware service not connected"
+            )}
+
+            ${stat(
+                "MEMORY",
+                "—",
+                "Hardware service not connected"
+            )}
+
+            ${stat(
+                "DISPLAY",
+                "—",
+                "Hardware service not connected"
+            )}
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
    SETTINGS
-===================================================== */
+========================================================= */
 
-function renderSettings(){
+function renderSettings() {
 
-    const settings = [
+    content.innerHTML = `
 
-        "Display",
+        <div class="page-header">
 
-        "Graphics",
+            <h1>
+                Settings
+            </h1>
 
-        "Audio",
+            <p>
+                Configure Apollo Game OS.
+            </p>
 
-        "Controllers",
-
-        "Network",
-
-        "Game Compatibility",
-
-        "Updates & Security",
-
-        "APOLLO Account"
-
-    ];
+        </div>
 
 
-    document
-        .getElementById(
-            "content"
-        )
-        .innerHTML = `
+        <div class="settings-layout">
 
-        <h2>
-            Settings
-        </h2>
+            <div class="settings-menu">
 
-        <p class="subtitle">
-            Configure APOLLO GAME OS.
-        </p>
+                ${settingsButton(
+                    "performance",
+                    "Performance"
+                )}
+
+                ${settingsButton(
+                    "graphics",
+                    "Graphics"
+                )}
+
+                ${settingsButton(
+                    "display",
+                    "Display"
+                )}
+
+                ${settingsButton(
+                    "audio",
+                    "Audio"
+                )}
+
+                ${settingsButton(
+                    "network",
+                    "Network"
+                )}
+
+                ${settingsButton(
+                    "system",
+                    "System"
+                )}
+
+            </div>
 
 
-        ${
-            settings.map(
-                item => `
+            <div
+                id="settingsContent"
+                class="settings-content"
+            ></div>
 
-                <div
-                    class="setting"
-                    onclick="
-                        notification(
-                            '${item} settings'
-                        )
-                    "
-                >
-
-                    <strong>
-                        ${item}
-                    </strong>
-
-                    <span
-                        class="setting-arrow"
-                    >
-                        ›
-                    </span>
-
-                </div>
-
-                `
-            ).join("")
-        }
+        </div>
 
     `;
 
+    renderSettingsSection(
+        settingsSection
+    );
 }
 
 
-/* =====================================================
-   GAMING MODE
-===================================================== */
+function settingsButton(
+    id,
+    title
+) {
 
-function toggleGamingMode(){
+    return `
+
+        <button
+            class="${
+                settingsSection === id
+                ? "active"
+                : ""
+            }"
+            onclick="
+                selectSettings(
+                    '${id}',
+                    this
+                )
+            "
+        >
+            ${escapeHTML(title)}
+        </button>
+
+    `;
+}
+
+
+function selectSettings(
+    section,
+    button
+) {
+
+    settingsSection =
+        section;
+
+    document
+        .querySelectorAll(
+            ".settings-menu button"
+        )
+        .forEach(
+            item =>
+            item.classList.remove(
+                "active"
+            )
+        );
+
+    button.classList.add(
+        "active"
+    );
+
+    renderSettingsSection(
+        section
+    );
+}
+
+
+function renderSettingsSection(
+    section
+) {
+
+    const target =
+        document.getElementById(
+            "settingsContent"
+        );
+
+    if (!target)
+        return;
+
+
+    if (
+        section ===
+        "performance"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                Performance
+            </h2>
+
+            <p class="settings-description">
+                Configure system performance behavior.
+            </p>
+
+
+            ${toggleSetting(
+                "performanceMode",
+                "Performance Mode",
+                "Prioritize gaming workloads."
+            )}
+
+
+            ${toggleSetting(
+                "fullscreenOptimization",
+                "Fullscreen Optimization",
+                "Optimize fullscreen gaming workloads."
+            )}
+
+
+            ${toggleSetting(
+                "autoUpdates",
+                "Automatic Updates",
+                "Allow Apollo services to update automatically."
+            )}
+
+
+            ${selectSetting(
+                "quality",
+                "Default Graphics Quality",
+                [
+                    "Low",
+                    "Medium",
+                    "High",
+                    "Ultra"
+                ]
+            )}
+
+        `;
+
+    }
+
+
+    if (
+        section ===
+        "graphics"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                Graphics
+            </h2>
+
+            <p class="settings-description">
+                Configure graphics behavior.
+            </p>
+
+
+            ${toggleSetting(
+                "rayTracing",
+                "Ray Tracing",
+                "Enable ray-tracing support when available."
+            )}
+
+
+            ${toggleSetting(
+                "vSync",
+                "Vertical Synchronization",
+                "Synchronize frames with the display."
+            )}
+
+        `;
+
+    }
+
+
+    if (
+        section ===
+        "display"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                Display
+            </h2>
+
+            <p class="settings-description">
+                Configure your display preferences.
+            </p>
+
+
+            ${selectSetting(
+                "resolution",
+                "Resolution",
+                [
+                    "1280 × 720",
+                    "1920 × 1080",
+                    "2560 × 1440",
+                    "3840 × 2160"
+                ]
+            )}
+
+
+            ${selectSetting(
+                "refreshRate",
+                "Refresh Rate",
+                [
+                    "60 Hz",
+                    "75 Hz",
+                    "120 Hz",
+                    "144 Hz",
+                    "165 Hz",
+                    "240 Hz"
+                ]
+            )}
+
+        `;
+
+    }
+
+
+    if (
+        section ===
+        "audio"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                Audio
+            </h2>
+
+            <p class="settings-description">
+                Configure system audio.
+            </p>
+
+
+            ${rangeSetting(
+                "volume",
+                "Master Volume",
+                "System output volume."
+            )}
+
+        `;
+
+    }
+
+
+    if (
+        section ===
+        "network"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                Network
+            </h2>
+
+            <p class="settings-description">
+                Configure Apollo network services.
+            </p>
+
+
+            ${toggleSetting(
+                "cloudSync",
+                "Cloud Sync",
+                "Synchronize your Apollo data."
+            )}
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <div class="setting-title">
+                        Network Service
+                    </div>
+
+                    <div class="setting-help">
+                        No Apollo network service connected.
+                    </div>
+
+                </div>
+
+                <strong
+                    style="
+                        color:#8993a3;
+                    "
+                >
+                    NOT CONNECTED
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (
+        section ===
+        "system"
+    ) {
+
+        target.innerHTML = `
+
+            <h2>
+                System
+            </h2>
+
+            <p class="settings-description">
+                Configure general system behavior.
+            </p>
+
+
+            ${toggleSetting(
+                "notifications",
+                "Notifications",
+                "Show Apollo system notifications."
+            )}
+
+
+            ${toggleSetting(
+                "startupApps",
+                "Startup Applications",
+                "Allow applications to start with Apollo."
+            )}
+
+
+            <div class="settings-buttons">
+
+                <button
+                    class="primary"
+                    onclick="saveSettings()"
+                >
+                    SAVE SETTINGS
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="resetSettings()"
+                >
+                    RESET
+                </button>
+
+            </div>
+
+        `;
+
+    }
+}
+
+
+/* =========================================================
+   SETTINGS COMPONENTS
+========================================================= */
+
+function toggleSetting(
+    key,
+    title,
+    help
+) {
+
+    return `
+
+        <div class="setting-row">
+
+            <div>
+
+                <div class="setting-title">
+                    ${escapeHTML(title)}
+                </div>
+
+                <div class="setting-help">
+                    ${escapeHTML(help)}
+                </div>
+
+            </div>
+
+
+            <div
+                class="
+                    toggle
+                    ${
+                        settings[key]
+                        ? "on"
+                        : ""
+                    }
+                "
+                onclick="
+                    changeToggle(
+                        '${key}'
+                    )
+                "
+            ></div>
+
+        </div>
+
+    `;
+}
+
+
+function selectSetting(
+    key,
+    title,
+    options
+) {
+
+    return `
+
+        <div class="setting-row">
+
+            <div>
+
+                <div class="setting-title">
+                    ${escapeHTML(title)}
+                </div>
+
+                <div class="setting-help">
+                    Select your preferred value.
+                </div>
+
+            </div>
+
+
+            <select
+                class="setting-select"
+                onchange="
+                    changeSelect(
+                        '${key}',
+                        this.value
+                    )
+                "
+            >
+
+                ${
+                    options
+                    .map(
+                        option =>
+                        `
+                        <option
+                            value="${escapeAttribute(
+                                option
+                            )}"
+                            ${
+                                settings[key] ===
+                                option
+                                ? "selected"
+                                : ""
+                            }
+                        >
+                            ${escapeHTML(
+                                option
+                            )}
+                        </option>
+                        `
+                    )
+                    .join("")
+                }
+
+            </select>
+
+        </div>
+
+    `;
+}
+
+
+function rangeSetting(
+    key,
+    title,
+    help
+) {
+
+    return `
+
+        <div class="setting-row">
+
+            <div>
+
+                <div class="setting-title">
+                    ${escapeHTML(title)}
+                </div>
+
+                <div class="setting-help">
+                    ${escapeHTML(help)}
+                </div>
+
+            </div>
+
+
+            <input
+                class="range"
+                type="range"
+                min="0"
+                max="100"
+                value="${settings[key]}"
+                oninput="
+                    changeRange(
+                        '${key}',
+                        this.value
+                    )
+                "
+            >
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   SETTINGS ACTIONS
+========================================================= */
+
+function changeToggle(
+    key
+) {
+
+    settings[key] =
+        !settings[key];
+
+    renderSettingsSection(
+        settingsSection
+    );
+}
+
+
+function changeSelect(
+    key,
+    value
+) {
+
+    settings[key] =
+        value;
+}
+
+
+function changeRange(
+    key,
+    value
+) {
+
+    settings[key] =
+        Number(value);
+}
+
+
+/* =========================================================
+   GAMING MODE
+========================================================= */
+
+function toggleGamingMode() {
 
     gamingMode =
         !gamingMode;
 
+    updateGamingIndicator();
 
-    notification(
-        "Gaming Mode " +
-        (
-            gamingMode
-            ? "enabled"
-            : "disabled"
-        )
+    notify(
+        gamingMode
+        ? "Gaming Mode enabled."
+        : "Gaming Mode disabled."
     );
 
-
-    if(
-        currentPage ===
-        "home"
-    )
-        renderHome();
-
-
-    if(
+    if (
         currentPage ===
         "performance"
-    )
+    ) {
+
         renderPerformance();
 
+    }
+
+    if (
+        currentPage ===
+        "home"
+    ) {
+
+        renderHome();
+
+    }
 }
 
 
-/* =====================================================
+function updateGamingIndicator() {
+
+    const indicator =
+        document.getElementById(
+            "gamingIndicator"
+        );
+
+    indicator.textContent =
+        gamingMode
+        ? "Gaming Mode"
+        : "Balanced";
+
+    indicator.style.color =
+        gamingMode
+        ? "var(--green)"
+        : "";
+}
+
+
+/* =========================================================
    MODAL
-===================================================== */
+========================================================= */
 
 function openModal(
     html
-){
+) {
 
-    document
-        .getElementById(
-            "modalContent"
-        )
-        .innerHTML =
+    document.getElementById(
+        "modalContent"
+    ).innerHTML =
         html;
 
-
-    document
-        .getElementById(
-            "modal"
-        )
-        .style.display =
+    document.getElementById(
+        "modal"
+    ).style.display =
         "flex";
-
 }
 
 
-function closeModal(){
+function closeModal() {
 
-    document
-        .getElementById(
-            "modal"
-        )
-        .style.display =
+    document.getElementById(
+        "modal"
+    ).style.display =
         "none";
-
 }
 
 
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
+document
+    .getElementById("modal")
+    .addEventListener(
+        "click",
+        function(event) {
 
-function notification(
+            if (
+                event.target ===
+                this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function notify(
     message
-){
+) {
+
+    if (
+        settings.notifications ===
+        false
+    ) {
+
+        return;
+
+    }
+
 
     const toast =
         document.createElement(
             "div"
         );
 
-
     toast.className =
         "toast";
-
 
     toast.textContent =
         message;
 
-
-    document
-        .body
-        .appendChild(
-            toast
-        );
+    document.body.appendChild(
+        toast
+    );
 
 
     setTimeout(
-        () =>
-        toast.remove(),
+        () => {
+
+            toast.remove();
+
+        },
         2200
     );
-
 }
 
 
-/* =====================================================
-   SECURITY
-===================================================== */
+/* =========================================================
+   SECURITY / HTML HELPERS
+========================================================= */
 
 function escapeHTML(
     value
-){
+) {
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+}
 
+
+function escapeAttribute(
+    value
+) {
+
+    return escapeHTML(
+        value
+    );
 }
 
 </script>
